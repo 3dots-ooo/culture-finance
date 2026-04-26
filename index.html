@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Discovery Gallery — Culture Finance Standard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --ink:#16221A;--cream:#F6F1E8;--pale:#EEE9DC;--white:#FDFAF5;
+  --gold:#B8934A;--gold-lt:#D4AE70;--gold-pale:rgba(184,147,74,0.12);
+  --sage:#4E6E50;--sage-lt:#7A9E7C;--sage-pale:rgba(78,110,80,0.1);
+  --red:#8B3A3A;--red-pale:rgba(139,58,58,0.1);
+  --border:rgba(22,34,26,0.1);--muted:rgba(22,34,26,0.45);
+  --serif:'Cormorant Garamond',Georgia,serif;--sans:'DM Sans',system-ui,sans-serif;
+}
+body{background:var(--cream);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.6}
+
+/* NAV */
+nav{position:sticky;top:0;z-index:50;background:rgba(246,241,232,0.95);backdrop-filter:blur(8px);border-bottom:1px solid var(--border);padding:0 2rem}
+.nav-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;height:56px;gap:2rem}
+.nav-brand{font-family:var(--serif);font-size:1rem;font-weight:500;color:var(--ink);text-decoration:none;white-space:nowrap}
+.nav-brand span{color:var(--gold)}
+.nav-section{font-size:0.72rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);padding:0 1rem;border-left:1px solid var(--border)}
+.nav-spacer{flex:1}
+.nav-role{display:flex;gap:0.5rem;align-items:center}
+.role-btn{padding:0.4rem 1rem;border-radius:2px;font-size:0.75rem;letter-spacing:0.06em;text-transform:uppercase;cursor:pointer;border:1px solid var(--border);background:transparent;font-family:var(--sans);color:var(--muted);transition:all 0.2s}
+.role-btn.active{background:var(--ink);color:var(--cream);border-color:var(--ink)}
+.role-btn:hover:not(.active){border-color:var(--gold);color:var(--ink)}
+
+/* TICKER */
+.ticker{background:var(--ink);color:var(--cream);padding:0.6rem 2rem}
+.ticker-inner{max-width:1200px;margin:0 auto;display:flex;gap:3rem;align-items:center;flex-wrap:wrap}
+.tick{display:flex;align-items:baseline;gap:0.5rem}
+.tick-val{font-family:var(--serif);font-size:1.3rem;font-weight:300;color:var(--gold-lt)}
+.tick-label{font-size:0.7rem;letter-spacing:0.1em;text-transform:uppercase;color:rgba(246,241,232,0.45)}
+.tick-sep{width:1px;height:24px;background:rgba(246,241,232,0.08)}
+
+/* PAGE HEADER */
+.page-header{padding:3rem 2rem 2rem;max-width:1200px;margin:0 auto;display:flex;align-items:flex-end;justify-content:space-between;gap:2rem;flex-wrap:wrap}
+.page-h1{font-family:var(--serif);font-size:clamp(1.8rem,3vw,2.6rem);font-weight:400;line-height:1.1}
+.page-h1 em{font-style:italic;color:var(--sage)}
+.page-sub{font-size:0.88rem;color:var(--muted);margin-top:0.4rem;max-width:480px}
+.submit-btn{background:var(--gold);color:var(--ink);padding:0.75rem 1.5rem;border-radius:2px;font-size:0.8rem;font-weight:500;letter-spacing:0.04em;text-decoration:none;white-space:nowrap;border:none;cursor:pointer;font-family:var(--sans);transition:background 0.2s}
+.submit-btn:hover{background:var(--gold-lt)}
+
+/* FILTERS */
+.filters-bar{padding:1rem 2rem 1.5rem;max-width:1200px;margin:0 auto}
+.filters-inner{display:flex;gap:0.75rem;flex-wrap:wrap;align-items:center}
+.filter-label{font-size:0.7rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);margin-right:0.25rem}
+.filter-chip{padding:0.35rem 0.875rem;border:1px solid var(--border);border-radius:20px;font-size:0.75rem;cursor:pointer;transition:all 0.15s;background:transparent;font-family:var(--sans);color:var(--ink)}
+.filter-chip:hover{border-color:var(--gold);color:var(--gold)}
+.filter-chip.active{background:var(--ink);color:var(--cream);border-color:var(--ink)}
+.filter-div{width:1px;height:20px;background:var(--border);margin:0 0.25rem}
+.search-wrap{margin-left:auto;position:relative}
+.search-wrap input{padding:0.4rem 1rem 0.4rem 2rem;border:1px solid var(--border);border-radius:20px;font-size:0.8rem;font-family:var(--sans);background:var(--white);outline:none;width:200px;transition:border-color 0.2s;color:var(--ink)}
+.search-wrap input:focus{border-color:var(--gold)}
+.search-icon{position:absolute;left:0.7rem;top:50%;transform:translateY(-50%);opacity:0.4;pointer-events:none;font-size:12px}
+.sort-select{padding:0.35rem 0.75rem;border:1px solid var(--border);border-radius:20px;font-size:0.75rem;font-family:var(--sans);background:transparent;cursor:pointer;outline:none;color:var(--ink)}
+
+/* GRID */
+.gallery-wrap{padding:0 2rem 4rem;max-width:1200px;margin:0 auto}
+.results-count{font-size:0.78rem;color:var(--muted);margin-bottom:1.25rem}
+.gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem}
+
+/* PROJECT CARD */
+.pcard{background:var(--white);border:1px solid var(--border);border-radius:3px;overflow:hidden;transition:border-color 0.2s,transform 0.2s;cursor:pointer;display:flex;flex-direction:column}
+.pcard:hover{border-color:rgba(184,147,74,0.5);transform:translateY(-2px)}
+.pcard.featured{border:2px solid var(--gold);grid-column:span 3}
+.pcard.featured .pcard-body{display:grid;grid-template-columns:1fr 1fr;gap:0}
+
+.pcard-img{height:160px;background:var(--pale);position:relative;overflow:hidden;flex-shrink:0}
+.pcard.featured .pcard-img{height:220px}
+.img-placeholder{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-size:2rem;font-weight:300;opacity:0.15}
+.featured-badge{position:absolute;top:0.75rem;left:0.75rem;background:var(--gold);color:var(--ink);font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;padding:0.25rem 0.6rem;border-radius:1px;font-weight:500}
+.verified-badge{position:absolute;top:0.75rem;right:0.75rem;background:var(--sage);color:white;font-size:0.65rem;letter-spacing:0.08em;padding:0.25rem 0.6rem;border-radius:1px}
+.shade-badge{position:absolute;bottom:0.75rem;left:0.75rem;width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-size:1rem;font-weight:500;color:white;border:2px solid rgba(255,255,255,0.3)}
+.sh1{background:#7A9E7C}.sh2{background:#4E7E52}.sh3{background:#2E5E32}.sh4{background:#16221A}
+
+.pcard-body{padding:1.25rem;flex:1;display:flex;flex-direction:column;gap:0}
+.pcard-meta{display:flex;align-items:center;gap:0.5rem;margin-bottom:0.6rem;flex-wrap:wrap}
+.domain-pill{font-size:0.65rem;letter-spacing:0.08em;text-transform:uppercase;padding:0.2rem 0.5rem;border-radius:1px;background:var(--sage-pale);color:var(--sage);font-weight:500;white-space:nowrap}
+.location{font-size:0.73rem;color:var(--muted);margin-left:auto}
+.pcard-org{font-size:0.73rem;color:var(--muted);margin-bottom:0.2rem;font-weight:500;letter-spacing:0.02em}
+.pcard-title{font-family:var(--serif);font-size:1.1rem;font-weight:500;line-height:1.25;margin-bottom:0.5rem}
+.pcard-desc{font-size:0.82rem;line-height:1.65;color:rgba(22,34,26,0.6);flex:1;margin-bottom:1rem}
+
+.pcard-stats{border-top:1px solid var(--border);padding-top:1rem;margin-top:auto}
+.ccu-row{display:flex;gap:0.75rem;align-items:flex-end;margin-bottom:1rem}
+.ccu-available{flex:1}
+.ccu-num{font-family:var(--serif);font-size:1.5rem;font-weight:300;color:var(--ink);line-height:1}
+.ccu-unit{font-size:0.68rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted)}
+.ccu-price{text-align:right}
+.price-val{font-size:0.88rem;font-weight:500;color:var(--ink)}
+.price-unit{font-size:0.7rem;color:var(--muted)}
+.fund-btn{width:100%;padding:0.65rem;background:var(--ink);color:var(--cream);border:none;border-radius:2px;font-size:0.8rem;font-weight:500;cursor:pointer;font-family:var(--sans);letter-spacing:0.04em;transition:background 0.2s}
+.fund-btn:hover{background:var(--sage)}
+
+/* MODAL */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(22,34,26,0.7);z-index:200;align-items:center;justify-content:center;padding:1rem}
+.modal-overlay.open{display:flex}
+.modal{background:var(--white);border-radius:4px;max-width:520px;width:100%;padding:2.5rem;position:relative;max-height:90vh;overflow-y:auto}
+.modal-close{position:absolute;top:1rem;right:1rem;background:none;border:none;font-size:1.2rem;cursor:pointer;color:var(--muted);width:28px;height:28px;display:flex;align-items:center;justify-content:center;border-radius:50%}
+.modal-close:hover{background:var(--pale)}
+.modal-org{font-size:0.73rem;color:var(--muted);font-weight:500;margin-bottom:0.25rem}
+.modal-title{font-family:var(--serif);font-size:1.6rem;font-weight:400;margin-bottom:0.5rem}
+.modal-shade{display:flex;align-items:center;gap:0.75rem;margin-bottom:1.25rem;padding-bottom:1.25rem;border-bottom:1px solid var(--border)}
+.modal-shade-circle{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-size:1rem;color:white;flex-shrink:0}
+.modal-shade-text{}
+.modal-shade-name{font-weight:500;font-size:0.88rem}
+.modal-shade-desc{font-size:0.78rem;color:var(--muted)}
+.modal-desc{font-size:0.88rem;line-height:1.75;color:rgba(22,34,26,0.65);margin-bottom:1.25rem}
+.modal-dims{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);margin-bottom:1.5rem;border:1px solid var(--border)}
+.mdim{background:var(--white);padding:0.875rem;text-align:center}
+.mdim-label{font-size:0.67rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);margin-bottom:0.2rem}
+.mdim-val{font-family:var(--serif);font-size:1.6rem;color:var(--sage)}
+.mdim-max{font-size:0.7rem;color:var(--muted)}
+.modal-buy{border-top:1px solid var(--border);padding-top:1.5rem}
+.buy-row{display:flex;align-items:center;gap:1rem;margin-bottom:1rem}
+.buy-label{font-size:0.78rem;color:var(--muted);white-space:nowrap}
+.qty-input{display:flex;align-items:center;gap:0.5rem}
+.qty-btn{width:28px;height:28px;border:1px solid var(--border);border-radius:2px;background:none;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;transition:all 0.15s}
+.qty-btn:hover{border-color:var(--gold);color:var(--gold)}
+.qty-val{font-family:var(--serif);font-size:1.2rem;min-width:2rem;text-align:center}
+.buy-total{margin-left:auto;text-align:right}
+.total-val{font-family:var(--serif);font-size:1.4rem;font-weight:400}
+.total-label{font-size:0.72rem;color:var(--muted)}
+.modal-fund-btn{width:100%;padding:0.85rem;background:var(--gold);color:var(--ink);border:none;border-radius:2px;font-size:0.88rem;font-weight:500;cursor:pointer;font-family:var(--sans);letter-spacing:0.04em;transition:background 0.2s;margin-bottom:0.75rem}
+.modal-fund-btn:hover{background:var(--gold-lt)}
+.modal-disclaimer{font-size:0.72rem;color:var(--muted);line-height:1.6;text-align:center}
+
+/* DEV SUBMIT MODAL */
+.submit-modal{display:none;position:fixed;inset:0;background:rgba(22,34,26,0.7);z-index:200;align-items:center;justify-content:center;padding:1rem}
+.submit-modal.open{display:flex}
+.smodal{background:var(--white);border-radius:4px;max-width:560px;width:100%;padding:2.5rem;position:relative;max-height:90vh;overflow-y:auto}
+.smodal h2{font-family:var(--serif);font-size:1.5rem;font-weight:400;margin-bottom:0.25rem}
+.smodal-sub{font-size:0.83rem;color:var(--muted);margin-bottom:1.5rem}
+.form-group{margin-bottom:1.25rem}
+.form-label{font-size:0.75rem;letter-spacing:0.06em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:0.4rem}
+.form-input,.form-select,.form-textarea{width:100%;padding:0.65rem 0.875rem;border:1px solid var(--border);border-radius:2px;font-size:0.88rem;font-family:var(--sans);background:var(--white);color:var(--ink);outline:none;transition:border-color 0.2s}
+.form-input:focus,.form-select:focus,.form-textarea:focus{border-color:var(--gold)}
+.form-textarea{min-height:80px;resize:vertical}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.form-hint{font-size:0.72rem;color:var(--muted);margin-top:0.3rem}
+.form-submit{width:100%;padding:0.85rem;background:var(--ink);color:var(--cream);border:none;border-radius:2px;font-size:0.85rem;font-weight:500;cursor:pointer;font-family:var(--sans);letter-spacing:0.05em;transition:background 0.2s;margin-top:0.5rem}
+.form-submit:hover{background:var(--sage)}
+
+/* EMPTY STATE */
+.empty{padding:4rem;text-align:center;color:var(--muted)}
+.empty-icon{font-size:2rem;margin-bottom:1rem;opacity:0.3}
+.empty p{font-size:0.88rem}
+
+/* HOW IT WORKS */
+.hiw{background:var(--ink);color:var(--cream);overflow:hidden;transition:max-height 0.5s ease}
+.hiw.collapsed{max-height:56px}
+.hiw.expanded{max-height:900px}
+.hiw-top{max-width:1200px;margin:0 auto;padding:1rem 2rem;display:flex;align-items:center;justify-content:space-between;cursor:pointer;user-select:none}
+.hiw-top-left{display:flex;align-items:center;gap:1rem}
+.hiw-eyebrow{font-size:0.7rem;letter-spacing:0.16em;text-transform:uppercase;color:var(--gold)}
+.hiw-toggle{font-size:0.72rem;letter-spacing:0.08em;color:rgba(246,241,232,0.35);display:flex;align-items:center;gap:0.4rem;transition:color 0.2s}
+.hiw-toggle:hover{color:var(--cream)}
+.hiw-toggle-icon{font-size:0.8rem;transition:transform 0.35s}
+.hiw.collapsed .hiw-toggle-icon{transform:rotate(0deg)}
+.hiw.expanded .hiw-toggle-icon{transform:rotate(180deg)}
+.hiw-body{padding:0 2rem 3rem;max-width:1200px;margin:0 auto}
+.hiw-intro{font-family:var(--serif);font-size:clamp(1.4rem,2.5vw,2rem);font-weight:300;line-height:1.2;margin-bottom:0.5rem;color:var(--cream)}
+.hiw-intro em{font-style:italic;color:var(--gold-lt)}
+.hiw-sub{font-size:0.85rem;color:rgba(246,241,232,0.45);margin-bottom:3rem;max-width:560px;line-height:1.7}
+.hiw-cols{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:rgba(246,241,232,0.07);border:1px solid rgba(246,241,232,0.07)}
+.hiw-col{background:var(--ink);padding:2rem}
+.hiw-col-label{font-size:0.68rem;letter-spacing:0.16em;text-transform:uppercase;margin-bottom:1.5rem;padding-bottom:0.75rem;border-bottom:1px solid rgba(246,241,232,0.07)}
+.hiw-col-label.dev{color:var(--sage-lt)}
+.hiw-col-label.buyer{color:var(--gold)}
+.hiw-steps{display:flex;flex-direction:column;gap:0}
+.hiw-step{display:flex;gap:1.25rem;align-items:flex-start;padding:1rem 0;border-bottom:1px solid rgba(246,241,232,0.05)}
+.hiw-step:last-child{border-bottom:none}
+.hiw-step-left{display:flex;flex-direction:column;align-items:center;gap:0;flex-shrink:0}
+.hiw-step-num{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-size:0.85rem;flex-shrink:0}
+.dev .hiw-step-num{background:rgba(122,158,124,0.15);color:var(--sage-lt);border:1px solid rgba(122,158,124,0.25)}
+.buyer .hiw-step-num{background:rgba(184,147,74,0.12);color:var(--gold);border:1px solid rgba(184,147,74,0.2)}
+.hiw-step-line{width:1px;flex:1;min-height:16px;margin-top:4px}
+.dev .hiw-step-line{background:rgba(122,158,124,0.15)}
+.buyer .hiw-step-line{background:rgba(184,147,74,0.1)}
+.hiw-step:last-child .hiw-step-line{display:none}
+.hiw-step-content{padding-top:4px}
+.hiw-step-title{font-size:0.88rem;font-weight:500;color:var(--cream);margin-bottom:0.2rem}
+.hiw-step-desc{font-size:0.78rem;color:rgba(246,241,232,0.45);line-height:1.65}
+.hiw-connector{display:flex;align-items:center;justify-content:center;padding:1.5rem 0;gap:1rem}
+.hiw-conn-line{flex:1;height:1px;background:rgba(246,241,232,0.06)}
+.hiw-conn-label{font-size:0.68rem;letter-spacing:0.12em;text-transform:uppercase;color:rgba(246,241,232,0.2)}
+.hiw-ccu-box{margin:2rem 0 0;padding:1.25rem 1.5rem;background:rgba(184,147,74,0.07);border:1px solid rgba(184,147,74,0.15);border-radius:2px;display:flex;gap:1.5rem;align-items:flex-start;flex-wrap:wrap}
+.hiw-ccu-icon{font-family:var(--serif);font-size:2.5rem;font-weight:300;color:var(--gold);line-height:1;flex-shrink:0}
+.hiw-ccu-text h4{font-family:var(--serif);font-size:1rem;font-weight:500;color:var(--cream);margin-bottom:0.3rem}
+.hiw-ccu-text p{font-size:0.78rem;color:rgba(246,241,232,0.45);line-height:1.7;max-width:600px}
+
+/* RESPONSIVE */
+@media(max-width:900px){.gallery{grid-template-columns:repeat(2,1fr)}.pcard.featured{grid-column:span 2}.pcard.featured .pcard-body{grid-template-columns:1fr}.hiw-cols{grid-template-columns:1fr}}
+@media(max-width:600px){.gallery{grid-template-columns:1fr}.pcard.featured{grid-column:span 1}.ticker-inner{gap:1.5rem}.nav-role{display:none}.hiw.expanded{max-height:1400px}}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a class="nav-brand" href="#">Culture <span>Finance</span> Standard</a>
+    <span class="nav-section">Discovery Gallery</span>
+    <div class="nav-spacer"></div>
+    <a href="#" class="nav-hiw-link" onclick="showHiw(event)" style="font-size:0.75rem;color:var(--muted);text-decoration:none;letter-spacing:0.05em;transition:color 0.2s" onmouseover="this.style.color='var(--ink)'" onmouseout="this.style.color='var(--muted)'">How it works</a>
+    <div class="nav-role">
+      <button class="role-btn active" onclick="setRole('buyer',this)">Corporate Buyer</button>
+      <button class="role-btn" onclick="setRole('dev',this)">Cultural Developer</button>
+    </div>
+  </div>
+</nav>
+
+<div class="ticker">
+  <div class="ticker-inner">
+    <div class="tick"><span class="tick-val">12,450</span><span class="tick-label">CCUs Available</span></div>
+    <div class="tick-sep"></div>
+    <div class="tick"><span class="tick-val">34</span><span class="tick-label">Active Projects</span></div>
+    <div class="tick-sep"></div>
+    <div class="tick"><span class="tick-val">£618,000</span><span class="tick-label">Funded this Quarter</span></div>
+    <div class="tick-sep"></div>
+    <div class="tick"><span class="tick-val">19</span><span class="tick-label">Countries</span></div>
+  </div>
+</div>
+
+<div class="page-header">
+  <div>
+    <h1 class="page-h1">Fund <em>verified</em> cultural impact</h1>
+    <p class="page-sub">Each listing holds Cultural Capital Units (CCUs) minted against the Culture Finance Standard. All projects are independently assessed and safeguard-verified.</p>
+  </div>
+  <button class="submit-btn" onclick="openSubmit()">Submit a Project →</button>
+</div>
+
+<div class="filters-bar">
+  <div class="filters-inner">
+    <span class="filter-label">Domain</span>
+    <button class="filter-chip active" data-filter="all" onclick="setFilter('all',this)">All</button>
+    <button class="filter-chip" data-filter="C1" onclick="setFilter('C1',this)">C1 — Participation</button>
+    <button class="filter-chip" data-filter="C2" onclick="setFilter('C2',this)">C2 — Livelihoods</button>
+    <button class="filter-chip" data-filter="C3" onclick="setFilter('C3',this)">C3 — Place &amp; Heritage</button>
+    <button class="filter-chip" data-filter="C4" onclick="setFilter('C4',this)">C4 — Cohesion</button>
+    <button class="filter-chip" data-filter="C5" onclick="setFilter('C5',this)">C5 — Cognitive</button>
+    <button class="filter-chip" data-filter="C6" onclick="setFilter('C6',this)">C6 — Climate</button>
+    <div class="filter-div"></div>
+    <select class="sort-select" onchange="sortProjects(this.value)">
+      <option value="default">Sort: Featured</option>
+      <option value="shade">Highest Shade</option>
+      <option value="price_asc">Price: Low–High</option>
+      <option value="ccu_desc">Most CCUs</option>
+    </select>
+    <div class="search-wrap">
+      <span class="search-icon">⌕</span>
+      <input type="text" placeholder="Search projects…" oninput="searchProjects(this.value)">
+    </div>
+  </div>
+</div>
+
+<div class="gallery-wrap">
+  <p class="results-count" id="results-count">Showing 6 projects</p>
+  <div class="gallery" id="gallery"></div>
+</div>
+
+<!-- FUND MODAL -->
+<div class="modal-overlay" id="fund-modal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div id="modal-content"></div>
+  </div>
+</div>
+
+<!-- SUBMIT MODAL -->
+<div class="submit-modal" id="submit-modal">
+  <div class="smodal">
+    <button class="modal-close" onclick="closeSubmit()">✕</button>
+    <h2>Submit a Project</h2>
+    <p class="smodal-sub">Your project will be assessed against the Culture Finance Standard. CCUs are minted upon approval.</p>
+    <div class="form-group">
+      <label class="form-label">Organisation Name</label>
+      <input class="form-input" type="text" placeholder="e.g. Lagos Theatre Workshop">
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Project Title</label>
+        <input class="form-input" type="text" placeholder="Short title">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Location</label>
+        <input class="form-input" type="text" placeholder="City, Country">
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Primary C-Domain</label>
+      <select class="form-select">
+        <option value="">Select domain…</option>
+        <option>C1 — Cultural Participation &amp; Access</option>
+        <option>C2 — Livelihoods &amp; Creative Economies</option>
+        <option>C3 — Place, Heritage &amp; Community Anchoring</option>
+        <option>C4 — Social Cohesion &amp; Peacebuilding</option>
+        <option>C5 — Cognitive Environment</option>
+        <option>C6 — Climate-Linked Cultural Resilience</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Project Description</label>
+      <textarea class="form-textarea" placeholder="Describe the cultural activity and its intended contribution…"></textarea>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Funding Target (£)</label>
+        <input class="form-input" type="number" placeholder="e.g. 50000">
+      </div>
+      <div class="form-group">
+        <label class="form-label">CCUs Requested</label>
+        <input class="form-input" type="number" placeholder="e.g. 500">
+        <p class="form-hint">Each CCU = £100 of verified impact</p>
+      </div>
+    </div>
+    <button class="form-submit" onclick="submitProject()">Submit for Assessment →</button>
+  </div>
+</div>
+
+<!-- HOW IT WORKS PAGE -->
+<div id="hiw-page" style="display:none">
+  <div style="background:var(--ink);color:var(--cream);min-height:calc(100vh - 56px)">
+    <div style="max-width:1200px;margin:0 auto;padding:3rem 2rem 5rem">
+
+      <div style="margin-bottom:0.75rem">
+        <button onclick="hideHiw()" style="background:none;border:none;cursor:pointer;font-size:0.75rem;letter-spacing:0.08em;color:rgba(246,241,232,0.4);font-family:var(--sans);padding:0;display:flex;align-items:center;gap:0.4rem;transition:color 0.2s" onmouseover="this.style.color='var(--cream)'" onmouseout="this.style.color='rgba(246,241,232,0.4)'">← Back to Gallery</button>
+      </div>
+
+      <p style="font-size:0.7rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--gold);margin-bottom:1rem">How it works</p>
+      <h2 style="font-family:var(--serif);font-size:clamp(1.8rem,3.5vw,2.8rem);font-weight:300;line-height:1.15;margin-bottom:0.75rem">From cultural activity to<br><em style="font-style:italic;color:var(--gold-lt)">verified capital</em> — four steps each side.</h2>
+      <p style="font-size:0.88rem;color:rgba(246,241,232,0.45);margin-bottom:3rem;max-width:560px;line-height:1.75">The platform connects cultural organisations seeking sustainable funding with capital allocators seeking verified, safeguard-checked cultural impact. Cultural Capital Units (CCUs) are the bridge.</p>
+
+      <div class="hiw-cols">
+        <div class="hiw-col dev">
+          <div class="hiw-col-label dev">For Cultural Developers</div>
+          <div class="hiw-steps">
+            <div class="hiw-step">
+              <div class="hiw-step-left"><div class="hiw-step-num">1</div><div class="hiw-step-line"></div></div>
+              <div class="hiw-step-content">
+                <div class="hiw-step-title">Submit your project</div>
+                <div class="hiw-step-desc">Complete the submission form describing your cultural activity, intended outcomes, and alignment with one or more of the six C-Domains. No specialist knowledge required.</div>
+              </div>
+            </div>
+            <div class="hiw-step">
+              <div class="hiw-step-left"><div class="hiw-step-num">2</div><div class="hiw-step-line"></div></div>
+              <div class="hiw-step-content">
+                <div class="hiw-step-title">Assessment against the Standard</div>
+                <div class="hiw-step-desc">Your project is assessed using the Shades of Impact framework — scored across Depth, Breadth, and Duration — and checked against all seven safeguard gates. Activities that fail a safeguard gate are not listed.</div>
+              </div>
+            </div>
+            <div class="hiw-step">
+              <div class="hiw-step-left"><div class="hiw-step-num">3</div><div class="hiw-step-line"></div></div>
+              <div class="hiw-step-content">
+                <div class="hiw-step-title">CCUs are minted</div>
+                <div class="hiw-step-desc">On approval, Cultural Capital Units are created in the registry — one secure database entry per CCU, tied to your project's verified impact score. This is the minting event. No CCUs exist before approval.</div>
+              </div>
+            </div>
+            <div class="hiw-step">
+              <div class="hiw-step-left"><div class="hiw-step-num">4</div><div class="hiw-step-line"></div></div>
+              <div class="hiw-step-content">
+                <div class="hiw-step-title">Your project is listed</div>
+                <div class="hiw-step-desc">The moment CCUs are minted, your project appears in the Discovery Gallery — visible to banks, foundations, public funders, and corporate sponsors actively seeking verified cultural impact.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="hiw-col buyer">
+          <div class="hiw-col-label buyer">For Capital Allocators</div>
+          <div class="hiw-steps">
+            <div class="hiw-step">
+              <div class="hiw-step-left"><div class="hiw-step-num">1</div><div class="hiw-step-line"></div></div>
+              <div class="hiw-step-content">
+                <div class="hiw-step-title">Discover verified projects</div>
+                <div class="hiw-step-desc">Browse the Discovery Gallery. Filter by C-Domain, Shade of Impact, geography, or keyword. Every listing has passed safeguard verification — displacement, extraction, elite capture, cognitive harm, and instrumentalisation checks.</div>
+              </div>
+            </div>
+            <div class="hiw-step">
+              <div class="hiw-step-left"><div class="hiw-step-num">2</div><div class="hiw-step-line"></div></div>
+              <div class="hiw-step-content">
+                <div class="hiw-step-title">Review the impact profile</div>
+                <div class="hiw-step-desc">Each project card shows its Shade of Impact, C-Domain alignment, and Depth / Breadth / Duration scores. Attribution is stated as contribution — the Standard explicitly rejects over-claiming.</div>
+              </div>
+            </div>
+            <div class="hiw-step">
+              <div class="hiw-step-left"><div class="hiw-step-num">3</div><div class="hiw-step-line"></div></div>
+              <div class="hiw-step-content">
+                <div class="hiw-step-title">Fund and receive CCUs</div>
+                <div class="hiw-step-desc">Select the number of CCUs to fund and proceed to checkout. On payment confirmation, ownership of those CCUs transfers to your Impact Vault — a permanent, auditable record of your cultural capital allocation.</div>
+              </div>
+            </div>
+            <div class="hiw-step">
+              <div class="hiw-step-left"><div class="hiw-step-num">4</div><div class="hiw-step-line"></div></div>
+              <div class="hiw-step-content">
+                <div class="hiw-step-title">Report with integrity</div>
+                <div class="hiw-step-desc">Your Impact Vault generates ESG-ready disclosure reports aligned with CSRD, SFDR, and existing sustainable finance frameworks. CCUs can be retired against specific reporting periods — a traceable, non-inflated impact record.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="hiw-ccu-box" style="margin-top:2.5rem">
+        <div class="hiw-ccu-icon">◈</div>
+        <div class="hiw-ccu-text">
+          <h4>What is a Cultural Capital Unit (CCU)?</h4>
+          <p>A CCU is a verified unit of cultural impact — a secure registry entry representing a defined quantum of cultural value creation, assessed against the Culture Finance Standard. CCUs are not financial instruments and carry no financial return. They are integrity infrastructure: a shared, auditable record connecting capital allocation to verified cultural contribution. One CCU represents one unit of assessed, safeguard-checked cultural impact from an approved project.</p>
+        </div>
+      </div>
+
+      <div style="margin-top:3rem;padding-top:2rem;border-top:1px solid rgba(246,241,232,0.07);display:flex;gap:1rem;flex-wrap:wrap">
+        <button onclick="hideHiw()" class="submit-btn">Browse the Gallery →</button>
+        <button onclick="hideHiw();openSubmit();" style="background:transparent;border:1px solid rgba(246,241,232,0.2);color:var(--cream);padding:0.75rem 1.5rem;border-radius:2px;font-size:0.8rem;cursor:pointer;font-family:var(--sans);transition:border-color 0.2s" onmouseover="this.style.borderColor='rgba(246,241,232,0.5)'" onmouseout="this.style.borderColor='rgba(246,241,232,0.2)'">Submit a Project</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+function showHiw(e){
+  e.preventDefault();
+  document.getElementById('hiw-page').style.display='block';
+  document.querySelector('.ticker').style.display='none';
+  document.querySelector('.page-header').style.display='none';
+  document.querySelector('.filters-bar').style.display='none';
+  document.querySelector('.gallery-wrap').style.display='none';
+  window.scrollTo(0,0);
+}
+function hideHiw(){
+  document.getElementById('hiw-page').style.display='none';
+  document.querySelector('.ticker').style.display='';
+  document.querySelector('.page-header').style.display='';
+  document.querySelector('.filters-bar').style.display='';
+  document.querySelector('.gallery-wrap').style.display='';
+  window.scrollTo(0,0);
+}
+
+var projects=[
+  {
+    id:1,featured:true,
+    org:'Sarajevo Bridge Project',
+    title:'Rebuilding Civic Dialogue Through Contemporary Performance',
+    desc:'A long-term programme bringing together artists from across ethnic and religious communities in post-conflict Sarajevo to co-create performance works that navigate contested histories without suppressing difference.',
+    location:'Sarajevo, Bosnia',
+    domains:['C4','C1'],domainLabels:['Social Cohesion','Participation'],
+    shade:4,depth:4,breadth:3,duration:4,
+    ccu:800,pricePerCCU:120,funded:45,
+    img:'⬡',imgBg:'#E8EFE8'
+  },
+  {
+    id:2,
+    org:'Lagos Theatre Workshop',
+    title:'Community Stage Access Programme',
+    desc:'Reducing geographic and income barriers to theatre participation across Lagos metropolitan communities through a network of neighbourhood micro-stages and sustained outreach.',
+    location:'Lagos, Nigeria',
+    domains:['C1'],domainLabels:['Participation'],
+    shade:3,depth:3,breadth:3,duration:2,
+    ccu:300,pricePerCCU:90,funded:62,
+    img:'◎',imgBg:'#EFF0E8'
+  },
+  {
+    id:3,
+    org:'Nordic Heritage Trust',
+    title:'Living Archive of Sámi Environmental Knowledge',
+    desc:'Documenting, digitising, and intergenerationally transmitting traditional Sámi ecological and land-use knowledge threatened by rapid climate change and cultural dislocation in northern Scandinavia.',
+    location:'Tromsø, Norway',
+    domains:['C3','C6'],domainLabels:['Heritage','Climate'],
+    shade:3,depth:3,breadth:2,duration:4,
+    ccu:500,pricePerCCU:110,funded:34,
+    img:'◈',imgBg:'#E8EEF2'
+  },
+  {
+    id:4,
+    org:'Cairo Media Collective',
+    title:'Independent Pluralist Media Infrastructure',
+    desc:'Building editorial infrastructure and distribution networks for independent Arabic-language cultural journalism, countering attention-capture dynamics and algorithmic homogenisation of media in the MENA region.',
+    location:'Cairo, Egypt',
+    domains:['C5'],domainLabels:['Cognitive Env.'],
+    shade:3,depth:3,breadth:3,duration:3,
+    ccu:250,pricePerCCU:100,funded:78,
+    img:'◉',imgBg:'#F2EDE8'
+  },
+  {
+    id:5,
+    org:'Manchester Music Cooperative',
+    title:'Fair Pay Structures for Independent Musicians',
+    desc:'Establishing cooperative production and distribution agreements for independent musicians in Greater Manchester, building collective bargaining capacity and addressing systemic under-compensation in the live and recorded music economy.',
+    location:'Manchester, UK',
+    domains:['C2'],domainLabels:['Livelihoods'],
+    shade:2,depth:2,breadth:3,duration:3,
+    ccu:400,pricePerCCU:80,funded:91,
+    img:'◇',imgBg:'#ECE8F2'
+  },
+  {
+    id:6,
+    org:'Amazonian Communities Trust',
+    title:'Cultural Continuity in Climate-Displaced Communities',
+    desc:'Supporting indigenous Amazonian communities facing forced relocation due to flooding and deforestation in maintaining cultural practices, governance structures, and identity continuity during and after displacement.',
+    location:'Pará, Brazil',
+    domains:['C6','C3'],domainLabels:['Climate','Heritage'],
+    shade:4,depth:4,breadth:2,duration:4,
+    ccu:600,pricePerCCU:130,funded:15,
+    img:'◬',imgBg:'#E8F0EA'
+  }
+];
+
+var shadeNames=['','Basic Contribution','Strengthening Conditions','Structural Improvement','Transformative Impact'];
+var shadeDescs=['','Limited in scale, depth, or duration.','Reinforces enabling conditions for cultural change.','Sustained improvements in cultural systems.','Durable, multi-level change embedded in institutions.'];
+var domainColors={C1:'#4E7E52',C2:'#8B6E4A',C3:'#5A6E8A',C4:'#7A4E6E',C5:'#4A6E7A',C6:'#4E6E50'};
+
+var activeFilter='all';
+var searchTerm='';
+var sortMode='default';
+var currentProject=null;
+var qty=10;
+
+function renderGallery(){
+  var filtered=projects.filter(function(p){
+    var domainMatch=activeFilter==='all'||p.domains.indexOf(activeFilter)>-1;
+    var searchMatch=!searchTerm||p.title.toLowerCase().includes(searchTerm)||p.org.toLowerCase().includes(searchTerm)||p.location.toLowerCase().includes(searchTerm);
+    return domainMatch&&searchMatch;
+  });
+  var sorted=filtered.slice();
+  if(sortMode==='shade') sorted.sort(function(a,b){return b.shade-a.shade;});
+  else if(sortMode==='price_asc') sorted.sort(function(a,b){return a.pricePerCCU-b.pricePerCCU;});
+  else if(sortMode==='ccu_desc') sorted.sort(function(a,b){return b.ccu-a.ccu;});
+  else sorted.sort(function(a,b){return (b.featured?1:0)-(a.featured?1:0);});
+  document.getElementById('results-count').textContent='Showing '+sorted.length+' project'+(sorted.length!==1?'s':'');
+  var g=document.getElementById('gallery');
+  if(!sorted.length){g.innerHTML='<div class="empty" style="grid-column:1/-1"><div class="empty-icon">◎</div><p>No projects match your current filters.</p></div>';return;}
+  g.innerHTML=sorted.map(function(p){
+    var isFeatured=p.featured&&sortMode==='default'&&activeFilter==='all'&&!searchTerm;
+    var domainPills=p.domains.map(function(d,i){return '<span class="domain-pill" style="background:'+domainColors[d]+'18;color:'+domainColors[d]+'">'+p.domainLabels[i]+'</span>';}).join('');
+    return '<div class="pcard'+(isFeatured?' featured':'')+'" onclick="openProject('+p.id+')">'
+      +'<div class="pcard-img" style="background:'+p.imgBg+'">'
+      +'<div class="img-placeholder">'+p.img+'</div>'
+      +(isFeatured?'<span class="featured-badge">Featured</span>':'')
+      +'<span class="verified-badge">Verified</span>'
+      +'<div class="shade-badge sh'+p.shade+'" title="Shade '+p.shade+': '+shadeNames[p.shade]+'">'+p.shade+'</div>'
+      +'</div>'
+      +'<div class="pcard-body">'
+      +'<div style="flex:1;padding:'+(isFeatured?'1.5rem':'0')+';">'
+      +'<div class="pcard-meta">'+domainPills+'<span class="location">'+p.location+'</span></div>'
+      +'<div class="pcard-org">'+p.org+'</div>'
+      +'<div class="pcard-title">'+p.title+'</div>'
+      +'<div class="pcard-desc">'+p.desc+'</div>'
+      +'</div>'
+      +'<div style="'+(isFeatured?'border-left:1px solid var(--border);padding:1.5rem;display:flex;flex-direction:column;justify-content:flex-end;':'')+'">'
+      +'<div class="pcard-stats">'
+      +'<div class="ccu-row">'
+      +'<div class="ccu-available"><div class="ccu-num">'+p.ccu+'</div><div class="ccu-unit">CCUs</div></div>'
+      +'<div class="ccu-price"><div class="price-val">£'+p.pricePerCCU+'</div><div class="price-unit">per CCU</div></div>'
+      +'</div>'
+      +'<button class="fund-btn" onclick="event.stopPropagation();openProject('+p.id+')">Fund this Project →</button>'
+      +'</div></div></div></div>';
+  }).join('');
+}
+
+function openProject(id){
+  currentProject=projects.find(function(p){return p.id===id;});
+  qty=10;
+  renderModal();
+  document.getElementById('fund-modal').classList.add('open');
+}
+
+function renderModal(){
+  var p=currentProject;
+  var total=qty*p.pricePerCCU;
+  var domainPills=p.domains.map(function(d,i){return '<span class="domain-pill" style="background:'+domainColors[d]+'18;color:'+domainColors[d]+'">'+d+' · '+p.domainLabels[i]+'</span>';}).join(' ');
+  document.getElementById('modal-content').innerHTML=
+    '<div class="modal-org">'+p.org+' · '+p.location+'</div>'
+    +'<div class="modal-title">'+p.title+'</div>'
+    +'<div class="modal-shade">'
+    +'<div class="modal-shade-circle sh'+p.shade+'">'+p.shade+'</div>'
+    +'<div class="modal-shade-text"><div class="modal-shade-name">Shade '+p.shade+' — '+shadeNames[p.shade]+'</div><div class="modal-shade-desc">'+shadeDescs[p.shade]+'</div></div>'
+    +'</div>'
+    +'<div class="modal-desc">'+p.desc+'</div>'
+    +'<div class="modal-dims">'
+    +'<div class="mdim"><div class="mdim-label">Depth</div><div class="mdim-val">'+p.depth+'</div><div class="mdim-max">/ 4</div></div>'
+    +'<div class="mdim"><div class="mdim-label">Breadth</div><div class="mdim-val">'+p.breadth+'</div><div class="mdim-max">/ 4</div></div>'
+    +'<div class="mdim"><div class="mdim-label">Duration</div><div class="mdim-val">'+p.duration+'</div><div class="mdim-max">/ 4</div></div>'
+    +'</div>'
+    +'<div style="display:flex;gap:0.5rem;margin-bottom:1.5rem;flex-wrap:wrap;">'+domainPills+'</div>'
+    +'<div class="modal-buy">'
+    +'<div class="buy-row">'
+    +'<span class="buy-label">CCUs to fund:</span>'
+    +'<div class="qty-input">'
+    +'<button class="qty-btn" onclick="changeQty(-10)">−</button>'
+    +'<span class="qty-val" id="qty-display">'+qty+'</span>'
+    +'<button class="qty-btn" onclick="changeQty(10)">+</button>'
+    +'</div>'
+    +'<div class="buy-total"><div class="total-val" id="total-display">£'+total.toLocaleString()+'</div><div class="total-label">Total commitment</div></div>'
+    +'</div>'
+    +'<div style="font-size:0.75rem;color:var(--muted);background:var(--pale);padding:0.75rem;border-radius:2px;margin-bottom:1rem;line-height:1.6;">Funding '+qty+' CCUs at £'+p.pricePerCCU+' each. Ownership transferred to your Impact Vault upon payment confirmation.</div>'
+    +'<button class="modal-fund-btn" onclick="triggerCheckout()">Proceed to Checkout — £'+total.toLocaleString()+'</button>'
+    +'<p class="modal-disclaimer">Payment via Stripe · CCU transfer on confirmation · Receipt issued for ESG reporting</p>'
+    +'</div>';
+}
+
+function changeQty(delta){
+  qty=Math.max(10,qty+delta);
+  document.getElementById('qty-display').textContent=qty;
+  document.getElementById('total-display').textContent='£'+(qty*currentProject.pricePerCCU).toLocaleString();
+  renderModal();
+}
+
+function closeModal(){document.getElementById('fund-modal').classList.remove('open');}
+
+function triggerCheckout(){
+  closeModal();
+  alert('Demo mode: In production, this triggers a Stripe checkout session for '+qty+' CCUs (£'+(qty*currentProject.pricePerCCU).toLocaleString()+'). On payment confirmation, a Supabase webhook updates the ccu_ledger and your Impact Vault.');
+}
+
+function openSubmit(){document.getElementById('submit-modal').classList.add('open');}
+function closeSubmit(){document.getElementById('submit-modal').classList.remove('open');}
+
+function submitProject(){
+  closeSubmit();
+  alert('Demo mode: In production, this creates a project record in Supabase with status "pending_assessment". Your team reviews and runs the Shades of Impact algorithm. Once approved, CCUs are minted to the ccu_ledger.');
+}
+
+function setFilter(f,btn){
+  activeFilter=f;
+  document.querySelectorAll('.filter-chip').forEach(function(c){c.classList.remove('active');});
+  btn.classList.add('active');
+  renderGallery();
+}
+
+function searchProjects(v){searchTerm=v.toLowerCase();renderGallery();}
+function sortProjects(v){sortMode=v;renderGallery();}
+
+function setRole(role,btn){
+  document.querySelectorAll('.role-btn').forEach(function(b){b.classList.remove('active');});
+  btn.classList.add('active');
+  if(role==='dev'){openSubmit();}
+}
+
+document.getElementById('fund-modal').addEventListener('click',function(e){if(e.target===this)closeModal();});
+document.getElementById('submit-modal').addEventListener('click',function(e){if(e.target===this)closeSubmit();});
+
+renderGallery();
+</script>
+</body>
+</html>
