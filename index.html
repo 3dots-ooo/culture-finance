@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Culture Finance Standard</title>
+<title>The Gallery — Culture Finance Standard</title>
 <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 :root{
@@ -124,10 +124,510 @@ button{font-family:inherit;cursor:pointer;border:none;background:transparent}
   padding:3rem 2rem 4rem;
 }
 
+.page-header{
+  display:flex;align-items:flex-end;justify-content:space-between;gap:3rem;
+  margin-bottom:2.5rem;
+  padding-bottom:2rem;
+  border-bottom:1px solid var(--border);
+}
+.page-h1{
+  font-size:2.75rem;
+  font-weight:400;
+  line-height:1.05;
+  letter-spacing:-0.015em;
+  max-width:740px;
+}
+.page-h1 em{
+  color:var(--sage);
+  font-style:italic;
+}
+.page-sub{
+  margin-top:1rem;
+  font-size:1.05rem;
+  color:var(--muted);
+  font-style:italic;
+  max-width:680px;
+  line-height:1.45;
+}
+.submit-btn{
+  font-family:var(--sans);
+  font-size:0.78rem;
+  letter-spacing:0.05em;
+  font-weight:600;
+  padding:0.85rem 1.5rem;
+  background:var(--ink);
+  color:var(--cream);
+  border-radius:2px;
+  white-space:nowrap;
+  transition:background 0.2s;
+}
+.submit-btn:hover{background:var(--gold)}
+
+/* ============ FILTERS ============ */
+.filter-bar{
+  display:flex;align-items:center;justify-content:space-between;gap:1rem;
+  margin-bottom:1.75rem;
+  flex-wrap:wrap;
+}
+.filter-group{
+  display:flex;align-items:center;gap:0.5rem;
+  flex-wrap:wrap;
+}
+.filter-label{
+  font-family:var(--sans);
+  font-size:0.65rem;
+  letter-spacing:0.15em;
+  text-transform:uppercase;
+  color:var(--muted-light);
+  font-weight:600;
+  margin-right:0.5rem;
+}
+.fchip{
+  font-family:var(--sans);
+  font-size:0.72rem;
+  letter-spacing:0.04em;
+  padding:0.4rem 0.85rem;
+  border:1px solid var(--border);
+  border-radius:20px;
+  background:transparent;
+  color:var(--muted);
+  font-weight:500;
+  transition:all 0.2s;
+}
+.fchip:hover{border-color:var(--ink);color:var(--ink)}
+.fchip.active{
+  background:var(--ink);
+  color:var(--cream);
+  border-color:var(--ink);
+}
+.controls{
+  display:flex;align-items:center;gap:0.75rem;
+}
+.sort-select{
+  font-family:var(--sans);
+  font-size:0.72rem;
+  padding:0.4rem 0.85rem;
+  border:1px solid var(--border);
+  border-radius:20px;
+  background:transparent;
+  color:var(--ink);
+  cursor:pointer;
+  outline:none;
+}
+.search-wrap{position:relative}
+.search-wrap input{
+  font-family:var(--sans);
+  font-size:0.78rem;
+  padding:0.45rem 0.85rem 0.45rem 2.1rem;
+  border:1px solid var(--border);
+  border-radius:20px;
+  background:transparent;
+  width:200px;
+  color:var(--ink);
+  outline:none;
+}
+.search-wrap input:focus{border-color:var(--ink)}
+.search-icon{
+  position:absolute;left:0.85rem;top:50%;transform:translateY(-50%);
+  color:var(--muted-light);font-size:0.95rem;
+}
+
+/* ============ GALLERY ============ */
+.gallery{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(340px,1fr));
+  gap:1.5rem;
+}
+.pcard{
+  background:var(--cream);
+  border:1px solid var(--border);
+  border-radius:3px;
+  overflow:hidden;
+  cursor:pointer;
+  display:flex;flex-direction:column;
+  transition:all 0.25s;
+}
+.pcard:hover{
+  transform:translateY(-2px);
+  border-color:var(--ink);
+  box-shadow:0 8px 24px rgba(26,26,26,0.06);
+}
+.pcard.featured{
+  grid-column:span 2;
+  flex-direction:row;
+}
+.pcard-img{
+  height:200px;
+  position:relative;
+  display:flex;align-items:center;justify-content:center;
+  overflow:hidden;
+}
+.pcard.featured .pcard-img{
+  height:auto;
+  width:42%;
+  flex-shrink:0;
+}
+.img-symbol{
+  font-size:5rem;
+  color:var(--ink);
+  opacity:0.32;
+}
+.pcard.featured .img-symbol{font-size:7rem}
+.featured-badge{
+  position:absolute;top:1rem;left:1rem;
+  font-family:var(--sans);
+  font-size:0.6rem;
+  letter-spacing:0.15em;
+  text-transform:uppercase;
+  background:var(--ink);
+  color:var(--cream);
+  padding:0.3rem 0.65rem;
+  border-radius:2px;
+  font-weight:600;
+}
+.safeguard-badge{
+  position:absolute;top:1rem;right:1rem;
+  font-family:var(--sans);
+  font-size:0.6rem;
+  letter-spacing:0.1em;
+  text-transform:uppercase;
+  padding:0.3rem 0.65rem;
+  border-radius:2px;
+  font-weight:600;
+  background:var(--cream);
+  border:1px solid var(--border);
+}
+.safeguard-badge.verified{
+  color:var(--sage);
+  border-color:var(--sage);
+}
+.safeguard-badge.conditional{
+  color:var(--terracotta);
+  border-color:var(--terracotta);
+}
+.shade-marker{
+  position:absolute;bottom:1rem;left:1rem;
+  display:flex;align-items:center;gap:0.5rem;
+  background:var(--cream);
+  padding:0.3rem 0.65rem;
+  border-radius:2px;
+  border:1px solid var(--border);
+}
+.shade-dot{
+  width:8px;height:8px;border-radius:50%;
+}
+.sd-1{background:#C5BFA8}
+.sd-2{background:#A88D5A}
+.sd-3{background:#8B6F2A}
+.sd-4{background:#4E6E50}
+.shade-name{
+  font-family:var(--sans);
+  font-size:0.65rem;
+  letter-spacing:0.05em;
+  font-weight:600;
+  color:var(--ink);
+  text-transform:uppercase;
+}
+.pcard-body{
+  padding:1.5rem;
+  display:flex;flex-direction:column;
+  flex:1;
+}
+.pcard.featured .pcard-body{padding:2rem}
+.pcard-meta{
+  display:flex;align-items:center;gap:0.5rem;
+  margin-bottom:0.85rem;
+  flex-wrap:wrap;
+}
+.domain-pill{
+  font-family:var(--sans);
+  font-size:0.6rem;
+  letter-spacing:0.08em;
+  text-transform:uppercase;
+  padding:0.25rem 0.55rem;
+  border-radius:2px;
+  font-weight:600;
+}
+.location{
+  font-family:var(--sans);
+  font-size:0.7rem;
+  color:var(--muted);
+  font-style:italic;
+}
+.pcard-org{
+  font-family:var(--sans);
+  font-size:0.7rem;
+  letter-spacing:0.06em;
+  color:var(--muted);
+  text-transform:uppercase;
+  font-weight:500;
+  margin-bottom:0.5rem;
+}
+.pcard-title{
+  font-family:var(--serif);
+  font-size:1.35rem;
+  font-weight:500;
+  line-height:1.2;
+  letter-spacing:-0.01em;
+  margin-bottom:0.65rem;
+}
+.pcard.featured .pcard-title{font-size:1.6rem}
+.pcard-desc{
+  font-size:0.92rem;
+  color:var(--muted);
+  line-height:1.5;
+  flex:1;
+}
+.pcard-footer{
+  margin-top:1.25rem;padding-top:1rem;
+  border-top:1px solid var(--border-light);
+  display:flex;align-items:center;justify-content:space-between;
+}
+.ccu-id{
+  font-family:'Courier New',monospace;
+  font-size:0.7rem;
+  letter-spacing:0.05em;
+  color:var(--gold);
+  font-weight:600;
+}
+.view-link{
+  font-family:var(--sans);
+  font-size:0.72rem;
+  letter-spacing:0.05em;
+  color:var(--ink);
+  font-weight:600;
+}
+
+/* ============ MODAL ============ */
+.modal-overlay{
+  position:fixed;inset:0;
+  background:rgba(26,26,26,0.55);
+  z-index:200;
+  display:none;align-items:flex-start;justify-content:center;
+  padding:3rem 1rem;
+  overflow-y:auto;
+}
+.modal-overlay.active{display:flex}
+.modal{
+  background:var(--cream);
+  width:100%;max-width:840px;
+  border-radius:4px;
+  position:relative;
+  animation:slideUp 0.3s ease-out;
+}
+@keyframes slideUp{from{transform:translateY(20px);opacity:0}to{transform:translateY(0);opacity:1}}
+.modal-close{
+  position:absolute;top:1rem;right:1rem;
+  width:32px;height:32px;
+  border-radius:50%;
+  background:var(--cream-deep);
+  font-size:1.1rem;
+  color:var(--ink);
+  display:flex;align-items:center;justify-content:center;
+  z-index:5;
+}
+.modal-img{
+  height:200px;
+  display:flex;align-items:center;justify-content:center;
+  border-bottom:1px solid var(--border);
+}
+.modal-img .img-symbol{font-size:6rem}
+.modal-body{padding:2.25rem 2.5rem 2rem}
+.modal-meta{
+  display:flex;align-items:center;gap:0.5rem;
+  margin-bottom:1rem;flex-wrap:wrap;
+}
+.modal-org{
+  font-family:var(--sans);
+  font-size:0.72rem;
+  letter-spacing:0.08em;
+  color:var(--muted);
+  text-transform:uppercase;
+  font-weight:500;
+  margin-bottom:0.4rem;
+}
+.modal-title{
+  font-family:var(--serif);
+  font-size:2rem;
+  font-weight:500;
+  line-height:1.1;
+  letter-spacing:-0.015em;
+  margin-bottom:1rem;
+}
+.modal-desc{
+  font-size:1rem;
+  color:var(--ink);
+  line-height:1.6;
+  margin-bottom:1.75rem;
+}
+.modal-section{
+  margin-bottom:1.75rem;
+}
+.modal-section-label{
+  font-family:var(--sans);
+  font-size:0.65rem;
+  letter-spacing:0.18em;
+  text-transform:uppercase;
+  color:var(--gold);
+  font-weight:600;
+  margin-bottom:0.85rem;
+  padding-bottom:0.4rem;
+  border-bottom:1px solid var(--border);
+}
+.shade-block{
+  background:var(--cream-deep);
+  padding:1rem 1.25rem;
+  border-radius:3px;
+  border-left:3px solid var(--gold);
+  margin-bottom:1rem;
+}
+.shade-title-line{
+  display:flex;align-items:center;gap:0.65rem;
+  margin-bottom:0.4rem;
+}
+.shade-block .shade-name-large{
+  font-family:var(--serif);
+  font-size:1.15rem;
+  font-weight:500;
+  color:var(--ink);
+}
+.shade-explain{
+  font-size:0.88rem;
+  color:var(--muted);
+  font-style:italic;
+  line-height:1.45;
+}
+.dimensions{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:1rem;
+  margin-bottom:1.5rem;
+}
+.dim{
+  border-top:1px solid var(--border);
+  padding-top:0.85rem;
+}
+.dim-label{
+  font-family:var(--sans);
+  font-size:0.62rem;
+  letter-spacing:0.15em;
+  text-transform:uppercase;
+  color:var(--muted-light);
+  font-weight:600;
+  margin-bottom:0.35rem;
+}
+.dim-val{
+  font-family:var(--serif);
+  font-size:1.05rem;
+  font-weight:500;
+  color:var(--sage);
+  margin-bottom:0.4rem;
+}
+.dim-desc{
+  font-size:0.82rem;
+  color:var(--muted);
+  font-style:italic;
+  line-height:1.45;
+}
+.safeguard-status{
+  background:var(--cream-deep);
+  border:1px solid var(--border);
+  padding:0.85rem 1.1rem;
+  border-radius:3px;
+  display:flex;align-items:flex-start;gap:0.85rem;
+}
+.safeguard-status.conditional{
+  background:#FBF1EC;
+  border-color:var(--terracotta);
+}
+.sg-icon{
+  font-family:var(--sans);
+  font-size:0.7rem;
+  letter-spacing:0.1em;
+  text-transform:uppercase;
+  font-weight:700;
+  padding:0.2rem 0.6rem;
+  border-radius:2px;
+  flex-shrink:0;
+}
+.safeguard-status .sg-icon{background:var(--sage);color:var(--cream)}
+.safeguard-status.conditional .sg-icon{background:var(--terracotta);color:var(--cream)}
+.sg-body{flex:1}
+.sg-title{
+  font-family:var(--sans);
+  font-size:0.78rem;
+  font-weight:600;
+  color:var(--ink);
+  margin-bottom:0.2rem;
+}
+.sg-detail{
+  font-size:0.85rem;
+  color:var(--muted);
+  font-style:italic;
+  line-height:1.45;
+}
+.modal-provenance{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:0.75rem 1.5rem;
+  background:var(--cream-deep);
+  padding:1.1rem 1.25rem;
+  border-radius:3px;
+  margin-bottom:1.5rem;
+}
+.prov-row{display:flex;flex-direction:column;gap:0.15rem}
+.prov-label{
+  font-family:var(--sans);
+  font-size:0.6rem;
+  letter-spacing:0.15em;
+  text-transform:uppercase;
+  color:var(--muted-light);
+  font-weight:600;
+}
+.prov-val{
+  font-family:var(--serif);
+  font-size:0.92rem;
+  color:var(--ink);
+  font-weight:500;
+}
+.prov-val.mono{
+  font-family:'Courier New',monospace;
+  font-size:0.82rem;
+  color:var(--gold);
+}
+.modal-actions{
+  display:flex;gap:0.75rem;
+  margin-top:1.75rem;
+  padding-top:1.5rem;
+  border-top:1px solid var(--border);
+}
+.action-btn{
+  flex:1;
+  font-family:var(--sans);
+  font-size:0.78rem;
+  letter-spacing:0.04em;
+  font-weight:600;
+  padding:0.95rem 1.25rem;
+  border-radius:2px;
+  text-align:center;
+  transition:all 0.2s;
+}
+.action-primary{
+  background:var(--ink);
+  color:var(--cream);
+}
+.action-primary:hover{background:var(--gold)}
+.action-secondary{
+  background:transparent;
+  border:1px solid var(--border);
+  color:var(--ink);
+}
+.action-secondary:hover{border-color:var(--ink)}
+
 /* ============ HOW IT WORKS ============ */
 .hiw{display:none}
 .hiw.active{display:block}
-
+.gallery-view{display:block}
+.gallery-view.hidden{display:none}
 .hiw-intro{
   text-align:center;
   max-width:740px;
@@ -263,54 +763,51 @@ button{font-family:inherit;cursor:pointer;border:none;background:transparent}
   color:var(--ink);
 }
 
-/* ============ SOON VIEW ============ */
-.soon-view{
-  display:none;
-  text-align:center;
-  padding:6rem 2rem;
-  min-height:50vh;
-}
-.soon-view.active{
-  display:block;
-  animation:fadeIn 0.4s ease-in;
-}
-@keyframes fadeIn{from{opacity:0}to{opacity:1}}
-.soon-h1{
+/* ============ SUBMIT MODAL ============ */
+.sub-form{padding:2rem 2.5rem}
+.sub-form h2{
   font-family:var(--serif);
-  font-size:3.5rem;
-  font-weight:400;
-  color:var(--ink);
-  margin-bottom:1rem;
-  line-height:1.1;
-  letter-spacing:-0.015em;
+  font-size:1.65rem;
+  font-weight:500;
+  margin-bottom:0.4rem;
 }
-.soon-h1 em{
-  color:var(--sage);
-  font-style:italic;
-}
-.soon-sub{
-  font-size:1.1rem;
+.sub-form .sub-intro{
+  font-size:0.95rem;
   color:var(--muted);
   font-style:italic;
-  max-width:540px;
-  margin:0 auto 2.5rem;
+  margin-bottom:1.75rem;
   line-height:1.5;
 }
-.back-btn{
+.field{margin-bottom:1.1rem}
+.field label{
+  display:block;
   font-family:var(--sans);
-  font-size:0.78rem;
-  letter-spacing:0.05em;
+  font-size:0.7rem;
+  letter-spacing:0.1em;
+  text-transform:uppercase;
+  color:var(--muted);
   font-weight:600;
-  padding:0.85rem 1.5rem;
-  background:transparent;
-  border:1px solid var(--ink);
-  color:var(--ink);
-  border-radius:2px;
-  transition:all 0.2s;
+  margin-bottom:0.3rem;
 }
-.back-btn:hover{
-  background:var(--ink);
-  color:var(--cream);
+.field input, .field textarea, .field select{
+  width:100%;
+  font-family:var(--sans);
+  font-size:0.92rem;
+  padding:0.75rem 0.9rem;
+  border:1px solid var(--border);
+  border-radius:2px;
+  background:var(--cream);
+  color:var(--ink);
+  outline:none;
+}
+.field input:focus, .field textarea:focus, .field select:focus{border-color:var(--ink)}
+.field textarea{resize:vertical;min-height:90px;font-family:var(--serif);font-size:0.95rem}
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.field-note{
+  font-size:0.78rem;
+  color:var(--muted-light);
+  font-style:italic;
+  margin-top:0.3rem;
 }
 
 /* ============ FOOTER ============ */
@@ -360,24 +857,30 @@ button{font-family:inherit;cursor:pointer;border:none;background:transparent}
 
 /* responsive */
 @media(max-width:880px){
-  .hiw-arch-grid, .hiw-flow, .hiw-pillars{grid-template-columns:1fr}
+  .pcard.featured{grid-column:span 1;flex-direction:column}
+  .pcard.featured .pcard-img{width:100%;height:200px}
+  .page-header{flex-direction:column;align-items:flex-start;gap:1.5rem}
+  .page-h1{font-size:2rem}
+  .hiw-arch-grid, .hiw-flow, .hiw-pillars, .dimensions, .modal-provenance{grid-template-columns:1fr}
   .hiw-side:first-child{border-right:none;border-bottom:1px solid var(--border)}
 }
 </style>
 </head>
 <body>
 
+<!-- ============ NAV ============ -->
 <nav class="nav">
   <div class="nav-brand">Culture <em>Finance</em> Standard</div>
-  <span class="nav-section" id="nav-section-title">Overview</span>
+  <span class="nav-section">The Gallery</span>
   <div class="nav-links">
-    <button id="nav-gallery" onclick="showView('soon')">Discover (Soon)</button>
-    <button class="active" id="nav-hiw" onclick="showView('hiw')">How it works</button>
-    <button id="nav-submit" onclick="showView('soon')">Submit a Project (Soon)</button>
+    <button class="active" id="nav-gallery" onclick="showView('gallery')">Discover</button>
+    <button id="nav-hiw" onclick="showView('hiw')">How it works</button>
+    <button onclick="openSubmit()">Submit a Project</button>
   </div>
   <span class="nav-audience">For Funders · Foundations · Public Bodies · Operators</span>
 </nav>
 
+<!-- ============ TICKER ============ -->
 <div class="ticker">
   <div class="ticker-inner">
     <div class="tick"><span class="tick-val">6</span><span class="tick-label">C-Domains</span></div>
@@ -386,13 +889,55 @@ button{font-family:inherit;cursor:pointer;border:none;background:transparent}
     <div class="tick-sep"></div>
     <div class="tick"><span class="tick-val">141</span><span class="tick-label">Sub-Indicators</span></div>
     <div class="tick-sep"></div>
-    <div class="tick"><span class="tick-val">v.1</span><span class="tick-label">Pilot Phase · 2026</span></div>
+    <div class="tick"><span class="tick-val">v.1</span><span class="tick-label">Pilot Phase · April 2026</span></div>
   </div>
 </div>
 
+<!-- ============ MAIN ============ -->
 <main class="main">
 
-<div class="hiw active" id="view-hiw">
+<!-- ============ GALLERY VIEW ============ -->
+<div class="gallery-view" id="view-gallery">
+
+<div class="page-header">
+  <div>
+    <h1 class="page-h1">Cultural value, made <em>visible</em></h1>
+    <p class="page-sub">The Gallery is the operational platform of the Culture Finance Standard. Every listing is a cultural activity assessed against the Standard, safeguard-checked, and bound to a Cultural Contribution Unit (CCU) — a non-financial integrity record.</p>
+  </div>
+  <button class="submit-btn" onclick="openSubmit()">Submit a Project →</button>
+</div>
+
+<div class="filter-bar">
+  <div class="filter-group">
+    <span class="filter-label">C-Domain</span>
+    <button class="fchip active" onclick="filterDomain('all',this)">All</button>
+    <button class="fchip" onclick="filterDomain('C1',this)">Participation</button>
+    <button class="fchip" onclick="filterDomain('C2',this)">Livelihoods</button>
+    <button class="fchip" onclick="filterDomain('C3',this)">Place &amp; Heritage</button>
+    <button class="fchip" onclick="filterDomain('C4',this)">Cohesion</button>
+    <button class="fchip" onclick="filterDomain('C5',this)">Cognitive</button>
+    <button class="fchip" onclick="filterDomain('C6',this)">Climate-linked</button>
+  </div>
+  <div class="controls">
+    <select class="sort-select" onchange="setSort(this.value)">
+      <option value="default">Sort: Featured</option>
+      <option value="shade_desc">Highest Shade</option>
+      <option value="recent">Most Recent</option>
+      <option value="org">Organisation A–Z</option>
+    </select>
+    <div class="search-wrap">
+      <span class="search-icon">⌕</span>
+      <input type="text" placeholder="Search projects…" oninput="setSearch(this.value)">
+    </div>
+  </div>
+</div>
+
+<div class="gallery" id="gallery"></div>
+
+</div>
+
+<!-- ============ HOW IT WORKS VIEW ============ -->
+<div class="hiw" id="view-hiw">
 
 <div class="hiw-intro">
   <h2>A standard only becomes infrastructure when someone builds the <em>machinery</em> around it.</h2>
@@ -515,50 +1060,404 @@ button{font-family:inherit;cursor:pointer;border:none;background:transparent}
 
 </div>
 
-<div class="soon-view" id="view-soon">
-  <h1 class="soon-h1">Coming <em>Soon</em></h1>
-  <p class="soon-sub">We are currently verifying our inaugural pilot cohort. The Discovery Gallery and Project Submissions portal will open to the public shortly.</p>
-  <button class="back-btn" onclick="showView('hiw')">← Read how it works</button>
-</div>
-
 </main>
 
+<!-- ============ PROJECT MODAL ============ -->
+<div class="modal-overlay" id="proj-modal" onclick="if(event.target===this)closeModal()">
+  <div class="modal" id="modal-content"></div>
+</div>
+
+<!-- ============ SUBMIT MODAL ============ -->
+<div class="modal-overlay" id="sub-modal" onclick="if(event.target===this)closeSubmit()">
+  <div class="modal" style="max-width:680px">
+    <button class="modal-close" onclick="closeSubmit()">×</button>
+    <div class="sub-form">
+      <h2>Submit a project for assessment</h2>
+      <p class="sub-intro">Submission is free for all cultural organisations. Once submitted, your project will be reviewed by the CFS assessment team. Funders cover assessment fees at the point of contribution — not operators.</p>
+
+      <div class="field">
+        <label>Organisation name</label>
+        <input type="text" placeholder="Legal name of your cultural organisation">
+      </div>
+
+      <div class="field">
+        <label>Project / activity title</label>
+        <input type="text" placeholder="Name of the project or activity to be assessed">
+      </div>
+
+      <div class="field-row">
+        <div class="field">
+          <label>Location</label>
+          <input type="text" placeholder="City, country">
+        </div>
+        <div class="field">
+          <label>Activity period</label>
+          <input type="text" placeholder="e.g. 2019 — ongoing">
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Primary C-Domain</label>
+        <select>
+          <option>Select primary domain…</option>
+          <option>C1 — Cultural Participation &amp; Access</option>
+          <option>C2 — Livelihoods &amp; Creative Economies</option>
+          <option>C3 — Place, Heritage &amp; Community</option>
+          <option>C4 — Social Cohesion &amp; Peacebuilding</option>
+          <option>C5 — Cognitive Environment</option>
+          <option>C6 — Climate-linked Cultural Resilience</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label>Project description</label>
+        <textarea placeholder="A short narrative describing the activity, its intended outcomes, and key partnerships."></textarea>
+      </div>
+
+      <div class="field">
+        <label>Supporting documentation</label>
+        <input type="text" placeholder="Link to website, annual reports, or evaluations">
+        <div class="field-note">Survey results, partnership letters, or impact materials are welcome — share what you have.</div>
+      </div>
+
+      <div class="modal-actions">
+        <button class="action-btn action-secondary" onclick="closeSubmit()">Cancel</button>
+        <button class="action-btn action-primary" onclick="submitForm()">Submit for Assessment →</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ FOOTER ============ -->
 <footer class="foot">
   <div class="foot-inner">
     <div>
       <div class="foot-brand">Culture <em>Finance</em> Standard</div>
-      <div class="foot-tagline">Infrastructure for verified cultural value creation. Operated as part of the CFS pilot programme.</div>
+      <div class="foot-tagline">Infrastructure for verified cultural value creation. Operated by 3dots as part of the CFS pilot programme.</div>
     </div>
     <div class="foot-meta">
-      <div class="foot-meta-item">Pilot Phase · 2026</div>
+      <div class="foot-meta-item">Pilot Phase · April 2026</div>
       <div class="foot-meta-item">Standard Version 1.0</div>
       <div class="foot-meta-item">Not for citation</div>
     </div>
   </div>
   <div class="foot-bottom">
     <span>CCUs are integrity units, not financial instruments</span>
-    <span>Culture Finance Standard</span>
+    <span>3dots · Culture Finance Standard</span>
   </div>
 </footer>
 
 <script>
+// ============ DATA ============
+var domainColors={
+  C1:'#4E7E52',C2:'#8B6E4A',C3:'#5A6E8A',
+  C4:'#7A4E6E',C5:'#4A6E7A',C6:'#4E6E50'
+};
+
+var shadeNames=['','Symbolic','Incremental','Structural','Transformative'];
+var shadeDescs=[
+  '',
+  'Recognition or visibility without structural change. Does not qualify under the Standard.',
+  'Measurable improvement in cultural outcomes within existing conditions.',
+  'Change in the conditions within which cultural value is created — institutional practice, governance, capability.',
+  'Reconfiguration of the systems within which cultural value is created, at a scale beyond the immediate context.'
+];
+
+var projects=[
+  {
+    id:1,featured:true,
+    org:'Istanbul Fringe Organize Ltd.',
+    title:'Istanbul Fringe Festival',
+    desc:'Eight years of uninterrupted independent dance and experimental performance programming in Istanbul. The last standing independent platform for contemporary dance in the city, with active institutional partnerships across the Balkans, Brussels, and Istanbul universities.',
+    location:'Istanbul, Türkiye',
+    period:'2019 — ongoing (8th edition)',
+    domains:['C1','C4'],domainLabels:['Participation','Cohesion'],
+    shadeIdx:2,
+    depth:'Incremental',breadth:'Incremental',duration:'Incremental',
+    depthDesc:'New capabilities built through workshops and direct collaboration with international artists. The festival challenges the belief that experimental work cannot exist in Türkiye.',
+    breadthDesc:'Active partnerships with Moving Balkans, Musem Brussels, Bilgi University, Alan Kadıköy. The last standing independent platform for dance in Istanbul.',
+    durationDesc:'Eight years of uninterrupted programming. Financial sustainability under development; institutional embedding in early stages.',
+    safeguard:'conditional',
+    safeguardNote:'Two open items: physical accessibility policy, Turkish interpretation mechanism.',
+    ccuId:'CCU-2026-FRI-001',
+    qualTier:'Provisional',
+    assessor:'3dots',
+    assessDate:'20 April 2026',
+    img:'◐',imgBg:'#E8EEF2'
+  },
+  {
+    id:2,
+    org:'Bozcaada Kültür Sanat Derneği',
+    title:'Bozcaada Jazz Festival',
+    desc:'A long-running jazz festival on Türkiye\'s Bozcaada island that has reshaped the local cultural ecosystem, with multi-community reach across residents, artists, and visitors. Effects integrated into ongoing local cultural and civic life.',
+    location:'Çanakkale, Türkiye',
+    period:'2017 — ongoing',
+    domains:['C1','C2','C3'],domainLabels:['Participation','Livelihoods','Place'],
+    shadeIdx:3,
+    depth:'Structural',breadth:'Structural',duration:'Structural',
+    depthDesc:'Sustained change in cultural ecosystem conditions on the island. Festival activity has reshaped local cultural infrastructure.',
+    breadthDesc:'Multi-community reach across local residents, artists, and visitors. Active institutional partnerships sustained.',
+    durationDesc:'Eight or more years of uninterrupted programming. Effects integrated into ongoing local cultural and civic life.',
+    safeguard:'verified',
+    ccuId:'CCU-2026-TR-0147',
+    qualTier:'Verified',
+    assessor:'3dots',
+    assessDate:'18 April 2026',
+    img:'◉',imgBg:'#F2EDE8'
+  },
+  {
+    id:3,
+    org:'Lagos Theatre Workshop',
+    title:'Community Stage Access Programme',
+    desc:'Reducing geographic and income barriers to theatre participation across Lagos metropolitan communities through a network of neighbourhood micro-stages and sustained outreach.',
+    location:'Lagos, Nigeria',
+    period:'2022 — ongoing',
+    domains:['C1'],domainLabels:['Participation'],
+    shadeIdx:3,
+    depth:'Structural',breadth:'Structural',duration:'Incremental',
+    depthDesc:'Sustained shifts in cultural participation across previously underserved neighbourhoods.',
+    breadthDesc:'Multi-community reach across the Lagos metropolitan area.',
+    durationDesc:'Three years of programming with growing community ownership structures.',
+    safeguard:'verified',
+    ccuId:'CCU-2026-LAG-002',
+    qualTier:'Verified',
+    assessor:'3dots',
+    assessDate:'14 April 2026',
+    img:'◎',imgBg:'#EFF0E8'
+  },
+  {
+    id:4,
+    org:'Nordic Heritage Trust',
+    title:'Living Archive of Sámi Environmental Knowledge',
+    desc:'Documenting, digitising, and intergenerationally transmitting traditional Sámi ecological and land-use knowledge threatened by rapid climate change and cultural dislocation in northern Scandinavia.',
+    location:'Tromsø, Norway',
+    period:'2021 — ongoing',
+    domains:['C3','C6'],domainLabels:['Heritage','Climate'],
+    shadeIdx:3,
+    depth:'Structural',breadth:'Incremental',duration:'Transformative',
+    depthDesc:'Reconfiguration of how traditional knowledge is documented and transmitted across generations.',
+    breadthDesc:'Community-level reach with strong institutional partnerships across Nordic universities.',
+    durationDesc:'Multi-generational transmission infrastructure being established with explicit longevity design.',
+    safeguard:'verified',
+    ccuId:'CCU-2026-NOR-003',
+    qualTier:'Verified',
+    assessor:'3dots',
+    assessDate:'10 April 2026',
+    img:'◈',imgBg:'#E8EEF2'
+  },
+  {
+    id:5,
+    org:'Manchester Music Cooperative',
+    title:'Fair Pay Structures for Independent Musicians',
+    desc:'Establishing cooperative production and distribution agreements for independent musicians in Greater Manchester, building collective bargaining capacity and addressing systemic under-compensation in the live and recorded music economy.',
+    location:'Manchester, UK',
+    period:'2024 — ongoing',
+    domains:['C2'],domainLabels:['Livelihoods'],
+    shadeIdx:2,
+    depth:'Incremental',breadth:'Structural',duration:'Incremental',
+    depthDesc:'Measurable improvement in artist livelihood conditions within the cooperative.',
+    breadthDesc:'Cross-sector reach across the Greater Manchester music ecosystem.',
+    durationDesc:'Two-year operational record, embedding into local creative infrastructure.',
+    safeguard:'verified',
+    ccuId:'CCU-2026-MAN-005',
+    qualTier:'Provisional',
+    assessor:'3dots',
+    assessDate:'08 April 2026',
+    img:'◇',imgBg:'#ECE8F2'
+  },
+  {
+    id:6,
+    org:'Amazonian Communities Trust',
+    title:'Cultural Continuity in Climate-Displaced Communities',
+    desc:'Supporting indigenous Amazonian communities facing forced relocation due to flooding and deforestation in maintaining cultural practices, governance structures, and identity continuity during and after displacement.',
+    location:'Pará, Brazil',
+    period:'2023 — ongoing',
+    domains:['C6','C3'],domainLabels:['Climate','Heritage'],
+    shadeIdx:4,
+    depth:'Transformative',breadth:'Incremental',duration:'Transformative',
+    depthDesc:'Systemic reconfiguration of how cultural continuity is sustained under climate displacement.',
+    breadthDesc:'Multi-community reach with deep institutional partnerships across affected regions.',
+    durationDesc:'Designed for multi-generational continuity, embedded in community governance structures.',
+    safeguard:'verified',
+    ccuId:'CCU-2026-BRA-006',
+    qualTier:'Verified',
+    assessor:'3dots',
+    assessDate:'05 April 2026',
+    img:'◬',imgBg:'#E8F0EA'
+  }
+];
+
+// ============ STATE ============
+var activeFilter='all';
+var sortMode='default';
+var searchTerm='';
+var currentProject=null;
+
 // ============ VIEWS ============
 function showView(v){
-  // Toggle visibility of the main sections
-  document.getElementById('view-hiw').classList.toggle('active', v === 'hiw');
-  document.getElementById('view-soon').classList.toggle('active', v === 'soon');
-  
-  // Toggle active states on the nav buttons
-  document.getElementById('nav-hiw').classList.toggle('active', v === 'hiw');
-  document.getElementById('nav-gallery').classList.toggle('active', v === 'soon');
-  document.getElementById('nav-submit').classList.toggle('active', v === 'soon');
-  
-  // Update the sub-section title in the top left
-  document.getElementById('nav-section-title').innerText = v === 'hiw' ? 'Overview' : 'Platform';
-
-  // Scroll to top
-  window.scrollTo({top:0, behavior:'smooth'});
+  document.getElementById('view-gallery').classList.toggle('hidden',v!=='gallery');
+  document.getElementById('view-hiw').classList.toggle('active',v==='hiw');
+  document.getElementById('nav-gallery').classList.toggle('active',v==='gallery');
+  document.getElementById('nav-hiw').classList.toggle('active',v==='hiw');
+  window.scrollTo({top:0,behavior:'smooth'});
 }
+
+// ============ FILTERS / SORT / SEARCH ============
+function filterDomain(d,el){
+  activeFilter=d;
+  document.querySelectorAll('.fchip').forEach(function(c){c.classList.remove('active')});
+  el.classList.add('active');
+  renderGallery();
+}
+function setSort(v){sortMode=v;renderGallery();}
+function setSearch(v){searchTerm=v.toLowerCase();renderGallery();}
+
+// ============ RENDER GALLERY ============
+function renderGallery(){
+  var g=document.getElementById('gallery');
+  var sorted=projects.filter(function(p){
+    if(activeFilter!=='all' && p.domains.indexOf(activeFilter)===-1)return false;
+    if(searchTerm && (p.org+' '+p.title+' '+p.desc+' '+p.location).toLowerCase().indexOf(searchTerm)===-1)return false;
+    return true;
+  });
+
+  if(sortMode==='shade_desc') sorted.sort(function(a,b){return b.shadeIdx-a.shadeIdx;});
+  else if(sortMode==='org') sorted.sort(function(a,b){return a.org.localeCompare(b.org);});
+  else if(sortMode==='recent') sorted.sort(function(a,b){return b.id-a.id;});
+  else sorted.sort(function(a,b){return (b.featured?1:0)-(a.featured?1:0);});
+
+  if(!sorted.length){
+    g.innerHTML='<div style="grid-column:1/-1;text-align:center;padding:4rem 2rem;color:var(--muted);font-style:italic">No projects match your current filters.</div>';
+    return;
+  }
+
+  g.innerHTML=sorted.map(function(p){
+    var isFeatured=p.featured && sortMode==='default' && activeFilter==='all' && !searchTerm;
+    var domainPills=p.domains.map(function(d,i){
+      return '<span class="domain-pill" style="background:'+domainColors[d]+'18;color:'+domainColors[d]+'">'+p.domainLabels[i]+'</span>';
+    }).join('');
+    var sgClass=p.safeguard==='verified'?'verified':'conditional';
+    var sgLabel=p.safeguard==='verified'?'✓ Verified':'⚠ Conditional';
+
+    return '<div class="pcard'+(isFeatured?' featured':'')+'" onclick="openProject('+p.id+')">'
+      +'<div class="pcard-img" style="background:'+p.imgBg+'">'
+        +'<div class="img-symbol">'+p.img+'</div>'
+        +(isFeatured?'<span class="featured-badge">Featured</span>':'')
+        +'<span class="safeguard-badge '+sgClass+'">'+sgLabel+'</span>'
+        +'<div class="shade-marker"><span class="shade-dot sd-'+p.shadeIdx+'"></span><span class="shade-name">'+shadeNames[p.shadeIdx]+'</span></div>'
+      +'</div>'
+      +'<div class="pcard-body">'
+        +'<div class="pcard-meta">'+domainPills+'<span class="location">'+p.location+'</span></div>'
+        +'<div class="pcard-org">'+p.org+'</div>'
+        +'<div class="pcard-title">'+p.title+'</div>'
+        +'<div class="pcard-desc">'+p.desc+'</div>'
+        +'<div class="pcard-footer">'
+          +'<span class="ccu-id">'+p.ccuId+'</span>'
+          +'<span class="view-link">View Assessment →</span>'
+        +'</div>'
+      +'</div>'
+    +'</div>';
+  }).join('');
+}
+
+// ============ PROJECT MODAL ============
+function openProject(id){
+  currentProject=projects.find(function(p){return p.id===id;});
+  renderModal();
+  document.getElementById('proj-modal').classList.add('active');
+  document.body.style.overflow='hidden';
+}
+
+function renderModal(){
+  var p=currentProject;
+  if(!p)return;
+  var domainPills=p.domains.map(function(d,i){
+    return '<span class="domain-pill" style="background:'+domainColors[d]+'18;color:'+domainColors[d]+'">'+d+' · '+p.domainLabels[i]+'</span>';
+  }).join('');
+  var sgClass=p.safeguard==='verified'?'':'conditional';
+  var sgIcon=p.safeguard==='verified'?'PASS':'HOLD';
+  var sgTitle=p.safeguard==='verified'?'All seven safeguards verified':'Safeguard status: Conditional';
+  var sgDetail=p.safeguard==='verified'
+    ? 'No displacement, extraction, elite capture, cognitive harm, instrumentalisation, or power concentration identified.'
+    : (p.safeguardNote || 'Open items pending review.');
+
+  document.getElementById('modal-content').innerHTML=
+    '<button class="modal-close" onclick="closeModal()">×</button>'
+    +'<div class="modal-img" style="background:'+p.imgBg+'"><div class="img-symbol">'+p.img+'</div></div>'
+    +'<div class="modal-body">'
+      +'<div class="modal-meta">'+domainPills+'<span class="location">'+p.location+'</span></div>'
+      +'<div class="modal-org">'+p.org+'</div>'
+      +'<div class="modal-title">'+p.title+'</div>'
+      +'<div class="modal-desc">'+p.desc+'</div>'
+
+      +'<div class="modal-section">'
+        +'<div class="modal-section-label">Shade Profile</div>'
+        +'<div class="shade-block">'
+          +'<div class="shade-title-line"><span class="shade-dot sd-'+p.shadeIdx+'"></span><span class="shade-name-large">'+shadeNames[p.shadeIdx]+'</span></div>'
+          +'<div class="shade-explain">'+shadeDescs[p.shadeIdx]+'</div>'
+        +'</div>'
+        +'<div class="dimensions">'
+          +'<div class="dim"><div class="dim-label">Depth</div><div class="dim-val">'+p.depth+'</div><div class="dim-desc">'+p.depthDesc+'</div></div>'
+          +'<div class="dim"><div class="dim-label">Breadth</div><div class="dim-val">'+p.breadth+'</div><div class="dim-desc">'+p.breadthDesc+'</div></div>'
+          +'<div class="dim"><div class="dim-label">Duration</div><div class="dim-val">'+p.duration+'</div><div class="dim-desc">'+p.durationDesc+'</div></div>'
+        +'</div>'
+      +'</div>'
+
+      +'<div class="modal-section">'
+        +'<div class="modal-section-label">Safeguard Verification</div>'
+        +'<div class="safeguard-status '+sgClass+'">'
+          +'<span class="sg-icon">'+sgIcon+'</span>'
+          +'<div class="sg-body">'
+            +'<div class="sg-title">'+sgTitle+'</div>'
+            +'<div class="sg-detail">'+sgDetail+'</div>'
+          +'</div>'
+        +'</div>'
+      +'</div>'
+
+      +'<div class="modal-section">'
+        +'<div class="modal-section-label">Provenance</div>'
+        +'<div class="modal-provenance">'
+          +'<div class="prov-row"><span class="prov-label">CCU Identifier</span><span class="prov-val mono">'+p.ccuId+'</span></div>'
+          +'<div class="prov-row"><span class="prov-label">Qualification Tier</span><span class="prov-val">'+p.qualTier+'</span></div>'
+          +'<div class="prov-row"><span class="prov-label">Assessor</span><span class="prov-val">'+p.assessor+'</span></div>'
+          +'<div class="prov-row"><span class="prov-label">Assessment Date</span><span class="prov-val">'+p.assessDate+'</span></div>'
+          +'<div class="prov-row"><span class="prov-label">Activity Period</span><span class="prov-val">'+p.period+'</span></div>'
+          +'<div class="prov-row"><span class="prov-label">Verification Tier</span><span class="prov-val">Light — Pilot phase</span></div>'
+        +'</div>'
+      +'</div>'
+
+      +'<div class="modal-actions">'
+        +'<button class="action-btn action-secondary" onclick="closeModal()">Close</button>'
+        +'<button class="action-btn action-primary" onclick="expressInterest()">Express Interest as Funder →</button>'
+      +'</div>'
+    +'</div>';
+}
+
+function closeModal(){
+  document.getElementById('proj-modal').classList.remove('active');
+  document.body.style.overflow='';
+}
+
+function expressInterest(){
+  alert('Thank you for your interest. In the live platform, this would route to a funder onboarding flow. During the pilot phase, please contact the CFS team directly to discuss this project.');
+}
+
+// ============ SUBMIT MODAL ============
+function openSubmit(){
+  document.getElementById('sub-modal').classList.add('active');
+  document.body.style.overflow='hidden';
+}
+function closeSubmit(){
+  document.getElementById('sub-modal').classList.remove('active');
+  document.body.style.overflow='';
+}
+function submitForm(){
+  alert('Thank you. In the live platform, your submission would be received by the assessment team. During the pilot phase, please contact 3dots directly to begin the assessment process.');
+  closeSubmit();
+}
+
+// ============ INIT ============
+renderGallery();
 </script>
 
 </body>
